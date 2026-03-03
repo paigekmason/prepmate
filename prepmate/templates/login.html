@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    PrepMate: Log In
+{% endblock %}
+
+{% block body %}
+    <div class="container d-flex justify-content-center">
+        <div class="card w-50">
+            <div class="card-body">
+                <h2 class="centered intro-title">Log In</h2>
+                <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3 mt-3">
+                        <label for="username" class="form-label">Username: <span class="required-text">*</span></label>
+                        <input name="username" id="username" class="form-control" type="text" autofocus autocomplete="off" placeholder="Enter username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password: <span class="required-text">*</span></label>
+                        <input name="password" id="password" class="form-control" type="password" autocomplete="off" placeholder="Enter password" required>
+                    </div>
+                    <div class="mb-3 centered">
+                        <input type="submit" class="btn btn-success" value="Log In">
+                    </div>
+                    {% if message %}
+                        <div class="mb-3 centered">{{ message }}</div>
+                    {% endif %}
+                    <div class="mb-3 centered">
+                        Don't have an account? <a href="{% url 'register' %}">Register</a>.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

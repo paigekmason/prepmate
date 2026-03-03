@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    PrepMate: Register
+{% endblock %}
+
+{% block body %}
+    <div class="container d-flex justify-content-center">
+        <div class="card w-50">
+            <div class="card-body">
+                <h2 class="centered intro-title">Register for an account</h2>
+                <form action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3 mt-3">
+                        <label for="username" class="form-label">Username: <span class="required-text">*</span></label>
+                        <input type="text" class="form-control" name="username" id="username" autofocus autocomplete="off" placeholder="Enter username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email: <span class="required-text">*</span></label>
+                        <input type="email" class="form-control" name="email" id="email" autocomplete="off" placeholder="Enter email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password: <span class="required-text">*</span></label>
+                        <input type="password" class="form-control" name="password" id="password" autocomplete="off" placeholder="Enter password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmation" class="form-label">Confirm Password: <span class="required-text">*</span></label>
+                        <input type="password" class="form-control" name="confirmation" id="confirmation" autocomplete="off" placeholder="Confirm your password" required>
+                    </div>
+                    {% if message %}
+                        <div class="mb-3 centered">{{ message }}</div>
+                    {% endif %}
+                    <div class="mb-3 centered">
+                        <input class="btn btn-success" type="submit" value="Register">
+                    </div>
+                    <div class="mb-3 centered">
+                        Already have an account? <a href="{% url 'login' %}">Log in</a>.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

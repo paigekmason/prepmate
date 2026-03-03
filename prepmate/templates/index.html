@@ -1,0 +1,423 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    PrepMate
+{% endblock %}
+
+{% block body %}
+    {% if not user.is_authenticated %}
+        <div class="container d-flex justify-content-center" id="intro-video">
+            <video src='media/intro.mp4' autoplay muted playsinline style="max-width: 800px;"></video>
+        </div>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <h3 class="centered mb-3 mt-3" id="title"></h3>
+        <div id="message-container" class="alert">
+        </div>
+        <div class="container centered">
+            <a href="" class="centered" id="trash" style="width: auto;"><i class="fa-solid fa-trash"></i></a>
+        </div>
+        <div id="block-body">
+            <div id="print-btn-div" class="container no-print">
+                <div class="d-flex justify-content-end align-items-center">
+                    <button type="button" title="Add to Calendar" id="lesson-view-add-to-calendar-btn" class="btn btn-lg btn-outline-success" style="display: none;"><i class="fa fa-calendar"></i></button>
+                    <button type="button" title="Edit Lesson Plan" id="lesson-view-edit-btn" class="btn btn-lg btn-outline-warning" style="display: none;"><i class="fa-solid fa-edit"></i></button>
+                    <button type="button" title="Print" id="print-btn" onclick="window.print()" class="btn btn-lg btn-outline-primary"><i class="fa-solid fa-print"></i></button>
+                </div>
+            </div>
+            <div id="calendar-view" class="container">
+                <div id="calendar"></div>
+            </div>
+            <div id="search-form-view" class="container" style="display: none;">
+                <div class="container d-flex centered">
+                    <input name="q" id="q" class="form-control me-2" style="width: auto;" type="text" value="{{request.GET.q|default_if_none:''}}" placeholder="Search plans...">
+                    <button class="btn btn-outline-success" type="button" id="search-btn"><i class="fa-solid fa-search"></i></button>
+                </div>
+            </div>
+            <div id="list-view" class="container" style="display: none;">
+            </div>
+    <!-- Add to Calendar Modal -->
+            <div class="modal fade" id="add-to-calendar-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add to Calendar</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5 id="lesson-to-schedule" class="listed-lesson-title"></h5>
+                            <label for="add_date">Select a date:</label>
+                            <input type="date" id="add_date" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="added-to-calendar-btn" class="btn btn-success"><i class="fa-solid fa-check"></i></button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <!-- Quick Look Modal -->
+            <div class="modal fade" id="quick-look-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Quick Look</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5 id="title-quick-look" class="centered"></h5>
+                            <div id="objective-quick-look"></div>
+                            <div id="activator-quick-look"></div>
+                            <div id="teaching-quick-look"></div>
+                            <div id="summarizer-quick-look"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!-- Confirm delete modal -->
+            <div class="modal fade" id="confirm-delete-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Confirm Delete</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                    <!-- Content will be injected here -->
+                            <p id="modal-message"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger" id="confirm-delete-btn">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pagination" class="pagination container centered" style="display: none;">
+            </div>
+
+            <div id="create-plan" class="container" style="display: none;">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form method="post" action="{% url 'create_plan' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="row">
+
+                        <!-- Left column -->
+                                <div class="col-7">
+
+                                    <div class="mb-3 mt-3">
+                                        <label class="form-label" for="lesson-title">Title</label>
+                                        <input name="lesson-title" id="lesson-title" class="form-control" placeholder="Lesson Title" autofocus autocomplete="off">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="objective">Objective</label>
+                                        <textarea name="objective" id="objective" class="form-control" placeholder="What is the goal of the lesson?"></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="activator">Activator</label>
+                                        <textarea name="activator" id="activator" class="form-control" placeholder="How will you begin the lesson?"></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="teaching">Teaching</label>
+                                        <textarea name="teaching" id="teaching" class="form-control" rows=5 placeholder="Explain the main teaching component of the lesson."></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="summarizer">Summarizer</label>
+                                        <textarea name="summarizer" id="summarizer" class="form-control" placeholder="How will you conclude the lesson?"></textarea>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-5">
+
+                            <!-- Subject -->
+                                    <div class="mb-3 mt-3">
+                                        <label class="form-label" for="subject">Subject</label>
+                                        <select name="subject" id="subject" class="form-select subject-selector">
+                                            <option disabled selected></option>
+                                            <option value="MATH.CONTENT">Math</option>
+                                            <option value="ELA-LITERACY">ELA</option>
+                                            <option value="Science">Science</option>
+                                            <option value="Social-Studies">Social Studies</option>
+                                            <option value="SEL">SEL</option>
+                                        </select>
+                                    </div>
+
+                            <!-- Grade -->
+                                    <div class="mb-3">
+                                        <label class="form-label" for="grade">Grade</label>
+                                        <select name="grade" id="grade" class="form-select grade-selector">
+                                            <option disabled selected></option>
+                                            <option value="PK">PK</option>
+                                            <option value="K">K</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    <h4 style="color: gray; font-style: italic;" class="centered">Optional: </h4>
+                            <!-- Standards + Attachments Card -->
+                                    <div class="card p-3 mb-3">
+
+                                <!-- Standards Button -->
+                                        <button type="button" class="btn btn-primary mb-2 mt-2" style="width: auto;" id="attach-standards-btn-create">
+                                            Attach Standards
+                                        </button>
+
+                                <!-- Standards Modal -->
+                                        <div class="modal fade" id="standards-modal-create" tabindex="-1">
+                                            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="standards-modal-title-create">Select Standards</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+
+                                                    <div class="modal-body" id="standards-modal-body-create"></div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success" id="standards-selected-btn-create" data-bs-dismiss="modal">
+                                                            Done
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                <!-- Selected standards display -->
+                                        <div id="selected-standards-create" class="mb-3"></div>
+
+                                        <hr>
+
+                                <!-- File upload -->
+                                        <div class="mb-3">
+                                            <label class="form-label" for="files">Attach Supplemental Materials</label>
+                                            <input type="file" name="files" id="files" class="form-control" multiple>
+
+                                            <p class="text-muted small">
+                                                Supported: PDF, DOC, DOCX, PPT, PPTX
+                                            </p>
+                                        </div>
+
+
+
+                                <!-- Date -->
+                                        <div class="mb-3">
+                                            <label class="form-label" for="date">Add to Calendar</label>
+                                            <input type="date" id="date" name="date" class="form-control">
+                                        </div>
+
+                                <!-- Notes -->
+                                        <div class="mb-3">
+                                            <label class="form-label" for="notes">Notes</label>
+                                            <textarea name="notes" id="notes" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                            <!-- Submit -->
+                                </div>
+                                <div class="row">
+                                    <div class="col centered">
+                                        <button type="submit" class="btn btn-success" id="save-lesson-btn">
+                                            Save Lesson
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="lesson-view" class="container" style="display: none;">
+                <br>
+                <h4 id="title-lesson-view" class="centered"></h4>
+                <hr>
+                <div class="row">
+                    <div class="col-7">
+                        <p><strong>Objective: </strong><span id="objective-lesson-view"></span></p>
+                        <hr>
+                        <p><strong>Activator: </strong><span id="activator-lesson-view"></span></p>
+                        <hr>
+                        <p><strong>Teaching: </strong><span id="teaching-lesson-view"></span></p>
+                        <hr>
+                        <p><strong>Summarizer: </strong><span id="summarizer-lesson-view"></span></p>
+                    </div>
+                    <div class="col-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <p><strong>Attachment(s): </strong><span id="attachments-lesson-view"></span></p>
+                                <hr>
+                                <p><strong>Notes: </strong><span id="notes-lesson-view"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div id="standards-lesson-view"></div>
+            </div>
+
+            <div id="edit-plan" class="container" style="display: none;">
+                <form method="POST" action="{% url 'edit_plan' %}">
+                    {% csrf_token %}
+
+                    <div class="row">
+
+                <!-- Left column -->
+                        <div class="col-7">
+
+                            <div class="mb-3 mt-3">
+                                <label class="form-label" for="edit-lesson-title">Title</label>
+                                <input name="lesson-title" id="edit-lesson-title" class="form-control" placeholder="Lesson Title" autofocus autocomplete="off">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="edit-lesson-objective">Objective</label>
+                                <textarea name="edit-lesson-objective" id="edit-lesson-objective" class="form-control" placeholder="What is the goal of the lesson?"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="edit-lesson-activator">Activator</label>
+                                <textarea name="edit-lesson-activator" id="edit-lesson-activator" class="form-control" placeholder="How will you begin the lesson?"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="edit-lesson-teaching">Teaching</label>
+                                <textarea name="edit-lesson-teaching" id="edit-lesson-teaching" class="form-control" rows=5 placeholder="Explain the main teaching component of the lesson."></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="edit-lesson-summarizer">Summarizer</label>
+                                <textarea name="edit-lesson-summarizer" id="edit-lesson-summarizer" class="form-control" placeholder="How will you conclude the lesson?"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="col-5">
+
+                    <!-- Subject -->
+                            <div class="mb-3 mt-3">
+                                <label class="form-label" for="edit-lesson-subject">Subject</label>
+                                <select name="edit-lesson-subject" id="edit-lesson-subject" class="form-select subject-selector">
+                                    <option disabled selected></option>
+                                    <option value="MATH.CONTENT">Math</option>
+                                    <option value="ELA-LITERACY">ELA</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Social-Studies">Social Studies</option>
+                                    <option value="SEL">SEL</option>
+                                </select>
+                            </div>
+
+                    <!-- Grade -->
+                            <div class="mb-3">
+                                <label class="form-label" for="edit-lesson-grade">Grade</label>
+                                <select name="edit-lesson-grade" id="edit-lesson-grade" class="form-select grade-selector">
+                                    <option disabled selected></option>
+                                    <option value="PK">PK</option>
+                                    <option value="K">K</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <h4 style="color: gray; font-style: italic;" class="centered">Optional: </h4>
+                    <!-- Standards + Attachments Card -->
+                            <div class="card p-3 mb-3">
+
+                        <!-- Standards Button -->
+                                <button type="button" class="btn btn-primary mb-2 mt-2" style="width: auto;" id="attach-standards-btn-edit">
+                                    Attach Standards
+                                </button>
+
+                        <!-- Standards Modal -->
+                                <div class="modal fade" id="standards-modal-edit" tabindex="-1">
+                                    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="standards-modal-title-edit">Select Standards</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body" id="standards-modal-body-edit"></div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-success" id="standards-selected-btn-edit" data-bs-dismiss="modal">
+                                                    Done
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                        <!-- Selected standards display -->
+                                <div id="selected-standards-edit" class="mb-3"></div>
+
+                                <hr>
+
+                        <!-- File upload -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="edit-lesson-files">Attach Supplemental Materials</label>
+                                    <input type="file" name="edit-lesson-files" id="edit-lesson-files" class="form-control" multiple>
+
+                                    <p class="text-muted small">
+                                        Supported: PDF, DOC, DOCX, PPT, PPTX
+                                    </p>
+                                    <div id="edit-attachments-container"></div>
+                                </div>
+
+                        <!-- Notes -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="edit-lesson-notes">Notes</label>
+                                    <textarea name="edit-lesson-notes" id="edit-lesson-notes" class="form-control"></textarea>
+                                </div>
+                            </div>
+                    <!-- Submit -->
+                        </div>
+                        <div class="row">
+                            <div class="col centered">
+                                <button type="submit" class="btn btn-success" id="save-as-new-btn">
+                                    Save as New Lesson
+                                </button>
+                                <button type="submit" class="btn btn-success" id="replace-existing-lesson-btn">
+                                    Replace Existing Lesson
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="cancel-edit-btn">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js'></script>
+    <script src="{% static 'prepmate.js' %}"></script>
+{% endblock %}
