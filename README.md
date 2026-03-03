@@ -30,22 +30,29 @@ Overall, PrepMate’s combination of database complexity, file management, inter
 In order to get PrepMate running, follow these steps:
 1. Clone the reposition and enter the project folder.
 ```
-git clone https://github.com/code50/208079352
-cd capstone
+git clone https://github.com/paigekmason/prepmate.git
+cd prepmate-lesson-planner
 ```
 
-2. Install the required packages from the requirements.txt file.
+2. Create and activate a virtual environment.
 ```
-pip install -r requirements.txt
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-3. Apply migrations and migrate
+3. Install the required packages from the requirements.txt file.
+```
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+4. Apply migrations and migrate
 ```
 python manage.py makemigrations prepmate
 python manage.py migrate
 ```
 
-4. Run the server
+5. Run the server
 ```
 python manage.py runserver
 ```
