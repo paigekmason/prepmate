@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+// Define commonly used brand colors
+$prepmate-orange: #FFA47D;
+$prepmate-green: #2F895B;
+$prepmate-yellow: #F3DA65;
+$prepmate-lightblue: #BDDBDD;
+$prepmate-lightpink: #F7CDD0;
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.required-text {
+    color: $prepmate-orange;
+}
+
+.centered {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.standards-muted,
+.listed-lesson-grade {
+    font-size: small;
+    color: gray;
+    font-style: italic;
+}
+
+#logo {
+    width: 125px;
+    margin-left: 20px;
+}
+
+.nav-link,
+.nav-item {
+    font-family: 'Quicksand', sans-serif;
+    font-size: medium;
+    font-weight: bold;
+    color: $prepmate-green !important;
+}
+
+#title,
+.intro-title,
+.listed-lesson-title,
+#title-lesson-view,
+#title-quick-look {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    color: $prepmate-green !important;
+}
+
+.listed-lesson-title:hover {
+    font-style: underline;
+    color: $prepmate-yellow !important;
+    cursor: pointer;
+}
+
+.btn {
+    border-radius: 9999px;
+    margin-right: 2px;
+    border: 0px;
+}
+
+.subject-icon {
+    margin-left: 5px;
+    color: white;
+    background-color: $prepmate-lightblue; /* Default color, use for Math icon */
+}
+
+.fc-event {
+  cursor: pointer;
+}
+
+.Science-icon {
+    background-color: $prepmate-green !important;
+}
+
+.ELA-LITERACY-icon {
+    background-color: $prepmate-yellow !important;
+}
+
+.Social-Studies-icon {
+    background-color: $prepmate-orange !important;
+}
+
+.SEL-icon {
+    background-color: $prepmate-lightpink;
+}
+
+.btn-outline-primary {
+    color: $prepmate-lightblue;
+}
+
+.btn-outline-primary:hover,
+.btn-primary {
+    background-color: $prepmate-lightblue;
+}
+
+.btn-outline-warning {
+    color: $prepmate-yellow;
+}
+
+.btn-outline-warning:hover,
+.btn-warning {
+    background-color: $prepmate-yellow;
+}
+
+.btn-outline-success {
+    color: $prepmate-green;
+}
+
+.btn-outline-success:hover,
+.btn-success {
+    background-color: $prepmate-green;
+}
+
+.btn:hover {
+    opacity: 70%;
+}
+
+.form-label {
+    color: $prepmate-green;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+}
+
+#trash {
+    display: none;
+    color: #ca3232;
+    font-size: xx-large;
+    background-color: #dedede;
+    border-radius: 9999px;
+    width: 100px !important;
+}
+
+#trash:hover {
+    background-color: #b4b4b4;
+}

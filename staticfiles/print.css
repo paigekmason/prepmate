@@ -1,0 +1,26 @@
+@media print {
+    nav {
+        display: none !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        margins: 0;
+        padding: 0;
+    }
+
+    .fc {
+        transform: scale(0.8);
+        transform-origin: top left;
+        width: 125%;
+    }
+
+    .fc-toolbar,
+    button,
+    nav {
+        display: none !important;
+    }
+}

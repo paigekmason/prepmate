@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.required-text {
+    color: #FFA47D;
+}
+
+.centered {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.standards-muted,
+.listed-lesson-grade {
+    font-size: small;
+    color: gray;
+    font-style: italic;
+}
+
+#logo {
+    width: 125px;
+    margin-left: 20px;
+}
+
+.nav-link,
+.nav-item {
+    font-family: "Quicksand", sans-serif;
+    font-size: medium;
+    font-weight: bold;
+    color: #2F895B !important;
+}
+
+#title,
+.intro-title,
+.listed-lesson-title,
+#title-lesson-view,
+#title-quick-look {
+    font-family: "Quicksand", sans-serif;
+    font-weight: bold;
+    color: #2F895B !important;
+}
+
+.listed-lesson-title:hover {
+    font-style: underline;
+    color: #F3DA65 !important;
+    cursor: pointer;
+}
+
+.btn {
+    border-radius: 9999px;
+    margin-right: 2px;
+    border: 0px;
+}
+
+.subject-icon {
+    margin-left: 5px;
+    color: white;
+    background-color: #BDDBDD;
+    /* Default color, use for Math icon */
+}
+
+.fc-event {
+    cursor: pointer;
+}
+
+.Science-icon {
+    background-color: #2F895B !important;
+}
+
+.ELA-LITERACY-icon {
+    background-color: #F3DA65 !important;
+}
+
+.Social-Studies-icon {
+    background-color: #FFA47D !important;
+}
+
+.SEL-icon {
+    background-color: #F7CDD0;
+}
+
+.btn-outline-primary {
+    color: #BDDBDD;
+}
+
+.btn-outline-primary:hover,
+.btn-primary {
+    background-color: #BDDBDD;
+}
+
+.btn-outline-warning {
+    color: #F3DA65;
+}
+
+.btn-outline-warning:hover,
+.btn-warning {
+    background-color: #F3DA65;
+}
+
+.btn-outline-success {
+    color: #2F895B;
+}
+
+.btn-outline-success:hover,
+.btn-success {
+    background-color: #2F895B;
+}
+
+.btn:hover {
+    opacity: 70%;
+}
+
+.form-label {
+    color: #2F895B;
+    font-family: "Quicksand", sans-serif;
+    font-weight: bold;
+}
+
+#trash {
+    display: none;
+    color: #ca3232;
+    font-size: xx-large;
+    background-color: #dedede;
+    border-radius: 9999px;
+    width: 100px !important;
+}
+
+#trash:hover {
+    background-color: #b4b4b4;
+}
+
+/*# sourceMappingURL=styles.css.map */
