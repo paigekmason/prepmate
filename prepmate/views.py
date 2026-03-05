@@ -297,7 +297,7 @@ def plans(request):
                 ],
                 'attachments': [
                     {'id': attachment.id,
-                     'name': attachment.file.name.split("/")[-1],
+                     'name': attachment.name,
                      'download_url': attachment.get_download_url()}
                     for attachment in lesson.attachments.all()
                 ]
@@ -336,8 +336,9 @@ def plans(request):
                 for s in lesson.standards.all()
             ],
             'attachments': [
-                {'id': attachment.id, 'name': attachment.file.name.split(
-                    "/")[-1], 'url': attachment.file.url}
+                {'id': attachment.id,
+                 'name': attachment.name,
+                 'download_url': attachment.get_download_url()}
                 for attachment in lesson.attachments.all()
             ]
         }
