@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-ou1fr(286rdzhvg7!4+&xp266p@2wg&8s=$nfudypgo+01a&yc
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ['prepmate-2uxs.onrender.com', ]
 
@@ -125,3 +126,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = BASE_DIR / '/prepmate/static'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
