@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
@@ -51,8 +52,9 @@ class LessonInstance(models.Model):
 
 class Attachment(models.Model):
     lesson = models.ForeignKey(LessonPlan, on_delete=models.CASCADE, related_name="attachments")
-    file = models.FileField(
-        upload_to="attachments/",
+    file = CloudinaryField(
+        resource_type="raw",
+        folder="lesson_attachments",
         blank=True,
         null=True,
         validators=[FileExtensionValidator(['pdf', 'doc', 'docx', 'ppt', 'pptx'])])
