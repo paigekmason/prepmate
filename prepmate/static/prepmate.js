@@ -549,7 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     plan.attachments.forEach(attachment => {
                         const attachmentLink = document.createElement('a');
-                        attachmentLink.href = attachment.url;
+                        attachmentLink.href = attachment.download_url;
                         attachmentLink.target = "_blank";
                         attachmentLink.value = attachment.id;
                         attachmentLink.dataset.id = attachment.id;
