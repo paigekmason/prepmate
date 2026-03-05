@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ou1fr(286rdzhvg7!4+&xp266p@2wg&8s=$nfudypgo+01a&yc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['prepmate.onrender.com', ]
+ALLOWED_HOSTS = ['prepmate-2uxs.onrender.com', ]
 
 AUTH_USER_MODEL = "prepmate.User"
 
