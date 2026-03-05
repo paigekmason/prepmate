@@ -69,6 +69,9 @@ class Attachment(models.Model):
         return (f"Attachment(s) added to Lesson {self.lesson} - {self.lesson.title}")
     
     def get_download_url(self):
+        if not self.file:
+            return None
+        
         url, options = cloudinary.utils.cloudinary_url(
             self.file.public_id,
             resource_type="raw",
@@ -82,7 +85,7 @@ class Attachment(models.Model):
             "lesson_id": self.lesson.id if self.lesson else None,
             "download_url": self.get_download_url() if self.file else None,
             "id": self.id,
-            "name": self.name
+            "name": self.name or self.file.name
         }
 
 
