@@ -72,12 +72,12 @@ class Attachment(models.Model):
 
 
 class Standard(models.Model):
-    code = models.CharField(max_length=36, unique=True, blank=True, null=True)
-    content_type = models.CharField(max_length=20, blank=True, null=True)
-    category_id = models.CharField(max_length=8, blank=True, null=True)
-    category_name = models.CharField(max_length=64, blank=True, null=True)
+    code = models.TextField(unique=True, blank=True, null=True)
+    content_type = models.TextField(blank=True, null=True)
+    category_id = models.CharField(max_length=10, blank=True, null=True)
+    category_name = models.TextField(blank=True, null=True)
     grade_id = models.CharField(max_length=8, blank=True, null=True)
-    grade_name = models.CharField(max_length=16, blank=True, null=True)
+    grade_name = models.TextField(blank=True, null=True)
     item = models.CharField(max_length=8, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
