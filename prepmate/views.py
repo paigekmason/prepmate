@@ -299,7 +299,7 @@ def plans(request):
                     {'id': attachment.id,
                      'name': attachment.name,
                      'download_url': attachment.get_download_url()}
-                    for attachment in lesson.attachments.all()
+                    for attachment in lesson.attachments.all() or None
                 ]
             }
             return JsonResponse(data)
