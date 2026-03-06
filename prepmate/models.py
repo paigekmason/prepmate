@@ -53,6 +53,7 @@ class LessonInstance(models.Model):
 
 
 class Attachment(models.Model):
+    
     lesson = models.ForeignKey(LessonPlan, on_delete=models.CASCADE, related_name="attachments")
     name = models.CharField(max_length=255, blank=True, null=True)
     file = CloudinaryField(
@@ -60,7 +61,7 @@ class Attachment(models.Model):
         folder="lesson_attachments",
         blank=True,
         null=True,
-        validators=[FileExtensionValidator(['pdf', 'doc', 'docx', 'ppt', 'pptx'])])
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'ppt', 'pptx'])])
 
     def clean(self):
         if not self.file:
@@ -77,7 +78,7 @@ class Attachment(models.Model):
             self.file.public_id,
             resource_type="raw",
             flags="attachment",
-            attachment=self.name
+            attachment=self.name or self.file.name
         )
         return url
     
