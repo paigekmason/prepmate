@@ -299,7 +299,7 @@ def plans(request):
                 'attachments': [
                     {'id': attachment.id,
                      'name': attachment.name or "Unnamed_File",
-                     'download_url': attachment.get_download_url() or None}
+                     'download_url': attachment.get_download_url()}
                     for attachment in lesson.attachments.all()
                 ]
             }

@@ -548,13 +548,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (plan.attachments.length > 0) {
 
                     plan.attachments.forEach(attachment => {
+                        console.log(attachment.download_url);
                         const attachmentLink = document.createElement('a');
                         attachmentLink.href = attachment.download_url;
                         attachmentLink.target = "_blank";
                         attachmentLink.value = attachment.id;
                         attachmentLink.dataset.id = attachment.id;
                         attachmentLink.classList.add('lesson-view-attachment');
-                        attachmentLink.name = "lesson-view-attachments";
                         attachmentLink.textContent = attachment.name;
 
                         const spacer = document.createElement('br');
@@ -672,7 +672,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 replaceExistingBtn.dataset.lessonId = plan.id;
 
                 plan.attachments.forEach(attachment => {
-
                     console.log('Adding attachment', attachment);
                     const link = document.createElement('a');
                     link.href = attachment.download_url;
