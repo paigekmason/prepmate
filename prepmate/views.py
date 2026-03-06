@@ -5,7 +5,7 @@ from django.core.files.base import ContentFile
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.dateparse import parse_datetime
@@ -98,8 +98,6 @@ def create_plan(request):
 
         standards_ids = request.POST.getlist("standard_options")
 
-        print("Posted standards ids: ", standards_ids)
-
         new_lesson = LessonPlan.objects.create(
             creator=request.user,
             title=title,
@@ -121,7 +119,8 @@ def create_plan(request):
         for file in files:
             Attachment.objects.create(
                 lesson=new_lesson,
-                file=file
+                file=file,
+                name=file.name
             )
 
         print("Lesson created: ", new_lesson.title)
@@ -136,7 +135,6 @@ def create_plan(request):
         return HttpResponseRedirect(reverse('index'))
 
 # Temporary: remove before production
-
 
 @csrf_exempt
 @login_required
@@ -200,14 +198,16 @@ def edit_plan(request):
             # Create new attachment with new file
             Attachment.objects.create(
                 lesson=new_lesson,
-                file=ContentFile(file_content, name=filename)
+                file=ContentFile(file_content),
+                name=filename
             )
 
             # Save newly uploaded files
         for uploaded_file in new_attachments:
             Attachment.objects.create(
                 lesson=new_lesson,
-                file=uploaded_file
+                file=uploaded_file,
+                name=uploaded_file.name
             )
 
         # Save standards
@@ -238,7 +238,8 @@ def edit_plan(request):
         for file in request.FILES.getlist("new_attachments[]"):
             Attachment.objects.create(
                 lesson=lesson,
-                file=file
+                file=file,
+                name=file.name
             )
 
         return JsonResponse({
