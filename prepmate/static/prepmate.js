@@ -675,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     console.log('Adding attachment', attachment);
                     const link = document.createElement('a');
-                    link.href = attachment.url;
+                    link.href = attachment.download_url;
                     link.target = "_blank";
                     link.textContent = attachment.name;
 
