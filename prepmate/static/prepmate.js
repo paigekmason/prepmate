@@ -556,6 +556,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         attachmentLink.dataset.id = attachment.id;
                         attachmentLink.classList.add('lesson-view-attachment');
                         attachmentLink.textContent = attachment.name;
+                        attachmentLink.addEventListener("click", function(e) {
+                            console.log("CLICK URL:", attachment.download_url);
+                        });
 
                         const spacer = document.createElement('br');
                         attachmentsDisplay.append(attachmentLink, spacer);
