@@ -549,15 +549,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     plan.attachments.forEach(attachment => {
                         const attachmentLink = document.createElement('a');
-                        attachmentLink.href = attachment.download_url;
+                        attachmentLink.href = `${attachment.download_url}`;
                         attachmentLink.target = "_blank";
                         attachmentLink.value = attachment.id;
                         attachmentLink.dataset.id = attachment.id;
                         attachmentLink.classList.add('lesson-view-attachment');
                         attachmentLink.textContent = attachment.name;
-                        attachmentLink.addEventListener("click", function(e) {
-                            console.log("CLICK URL:", attachment.download_url);
-                        });
 
                         const spacer = document.createElement('br');
                         attachmentsDisplay.append(attachmentLink, spacer);
@@ -676,7 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 plan.attachments.forEach(attachment => {
                     console.log('Adding attachment', attachment);
                     const link = document.createElement('a');
-                    link.href = attachment.download_url;
+                    link.href = `${attachment.download_url}`;
                     link.target = "_blank";
                     link.textContent = attachment.name;
 

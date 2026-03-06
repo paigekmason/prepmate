@@ -72,7 +72,6 @@ class Attachment(models.Model):
     
     def get_download_url(self):
         
-
         if not self.file:
             return None
         
