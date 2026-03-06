@@ -21,7 +21,11 @@ SECRET_KEY = 'django-insecure-ou1fr(286rdzhvg7!4+&xp266p@2wg&8s=$nfudypgo+01a&yc
 DEBUG = False
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['prepmate-2uxs.onrender.com', ]
+ALLOWED_HOSTS = [
+    'prepmate-2uxs.onrender.com',
+    'localhost',
+    '127.0.0.1'
+    ]
 
 AUTH_USER_MODEL = "prepmate.User"
 
