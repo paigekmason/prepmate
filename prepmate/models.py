@@ -71,20 +71,24 @@ class Attachment(models.Model):
         return (f"Attachment(s) added to Lesson {self.lesson} - {self.lesson.title}")
     
     def get_download_url(self):
+        public_id = f"{self.file.public_id}.{self.file.format}"
+
         if not self.file:
             return None
         
         url, options = cloudinary.utils.cloudinary_url(
-            self.file.public_id,
+            public_id,
             resource_type="raw",
             attachment=self.name or self.file.name
         )
         return url
     
     def delete(self, *args, **kwargs):
+        public_id = f"{self.file.public_id}.{self.file.format}"
+        
         if self.file:
             cloudinary.uploader.destroy(
-                self.file.public_id,
+                public_id,
                 resource_type="raw"
             )
         super().delete(*args, **kwargs)

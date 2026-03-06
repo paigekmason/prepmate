@@ -548,7 +548,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (plan.attachments.length > 0) {
 
                     plan.attachments.forEach(attachment => {
-                        console.log(attachment.download_url);
                         const attachmentLink = document.createElement('a');
                         attachmentLink.href = attachment.download_url;
                         attachmentLink.target = "_blank";
