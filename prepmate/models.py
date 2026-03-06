@@ -77,7 +77,6 @@ class Attachment(models.Model):
         url, options = cloudinary.utils.cloudinary_url(
             self.file.public_id,
             resource_type="raw",
-            flags="attachment",
             attachment=self.name or self.file.name
         )
         return url
