@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
 import cloudinary.utils
+import cloudinary.uploader
 
 
 class User(AbstractUser):
@@ -79,6 +80,14 @@ class Attachment(models.Model):
             attachment=self.name
         )
         return url
+    
+    def delete(self, *args, **kwargs):
+        if self.file:
+            cloudinary.uploader.destroy(
+                self.file.public_id,
+                resource_type="raw"
+            )
+        super().delete(*args, **kwargs)
 
     def serialize(self):
         return {
