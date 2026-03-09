@@ -89,6 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const standardsModalBodyEdit = document.querySelector('#standards-modal-body-edit');
     const standardsModalTitleEdit = document.querySelector('#standards-modal-title-edit');
 
+    const lessonViewEditBtn = document.querySelector('#lesson-view-edit-btn');
+
     // Add checkbox change listeners for each modal body
     document.querySelectorAll('.modal-body').forEach(modalBody => {
         modalBody.addEventListener('change', (event) => {
@@ -502,7 +504,6 @@ document.addEventListener('DOMContentLoaded', () => {
         calendarView.style.display = 'none';
         lessonView.style.display = 'block';
         printBtnDiv.style.display = 'block';
-        const lessonViewEditBtn = document.querySelector('#lesson-view-edit-btn');
         lessonViewAddToCalendarBtn.dataset.lessonId = lesson_id;
         lessonViewAddToCalendarBtn.style.display = 'block';
         lessonViewEditBtn.style.display = 'block';
@@ -546,10 +547,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (plan.attachments.length > 0) {
+                    // Skip if undefined
+                    if (!attachment.download_url) return;
 
                     plan.attachments.forEach(attachment => {
                         const attachmentLink = document.createElement('a');
-                        attachmentLink.href = `${attachment.download_url}`;
+                        attachmentLink.href = attachment.download_url;
                         attachmentLink.target = "_blank";
                         attachmentLink.value = attachment.id;
                         attachmentLink.dataset.id = attachment.id;
@@ -557,7 +560,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         attachmentLink.textContent = attachment.name;
 
                         const spacer = document.createElement('br');
-                        attachmentsDisplay.append(attachmentLink, spacer);
+                        attachmentsDisplay.appendChild(attachmentLink);
+                        attachmentsDisplay.appendChild(spacer);
                     })
                 } else {
                     attachmentsDisplay.innerHTML = 'No attachments for this lesson.';
@@ -671,9 +675,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 replaceExistingBtn.dataset.lessonId = plan.id;
 
                 plan.attachments.forEach(attachment => {
-                    console.log('Adding attachment', attachment);
+                    // Skip if undefined
+                    if (!attachment.download_url) return;
+                    
                     const link = document.createElement('a');
-                    link.href = `${attachment.download_url}`;
+                    link.href = attachment.download_url;
                     link.target = "_blank";
                     link.textContent = attachment.name;
 
@@ -694,8 +700,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     hidden.type = 'hidden';
                     hidden.value = attachment.id;
                     hidden.name = 'existing_attachments[]';
-                    editAttachmentsContainer.append(link, deleteAttachmentBtn, hidden, spacer);
-                    console.log('Hidden input added:', hidden);
+                    editAttachmentsContainer.appendChild(link);
+                    editAttachmentsContainer.appendChild(deleteAttachmentBtn);
+                    editAttachmentsContainer.appendChild(hidden);
+                    editAttachmentsContainer.appendChild(spacer);
+                    
                 });
 
                 // Reset selected standards
@@ -856,6 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pagination.style.display = 'none';
         createPlanView.style.display = 'none';
         editPlanView.style.display = 'none';
+        lessonViewEditBtn.style.display = 'none';
         lessonView.style.display = 'none';
         printBtnDiv.style.display = 'block';
         calendarView.style.display = 'block';
