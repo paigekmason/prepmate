@@ -690,8 +690,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     link.textContent = attachment.name;
                     link.addEventListener("click", e => {
                         e.stopPropagation();
-                    });attachmentLink.addEventListener("click", e => {
-                        e.stopPropagation();
                     });
 
                     const spacer = document.createElement('br');
