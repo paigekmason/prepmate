@@ -537,7 +537,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 summarizerDisplay.innerText = plan.summarizer;
                 notesDisplay.innerText = plan.notes;
                 standardsDisplay.innerText = '';
-                attachmentsDisplay.innerHTML = '';
 
                 plan.standards.forEach(standard => {
                     const standardText = document.createElement('p');
@@ -691,6 +690,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     link.target = "_blank";
                     link.textContent = attachment.name;
                     link.addEventListener("click", e => {
+                        e.stopPropagation();
+                    });attachmentLink.addEventListener("click", e => {
                         e.stopPropagation();
                     });
 
