@@ -553,10 +553,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const attachmentLink = document.createElement('a');
                         console.log("DOWNLOAD URL:", attachment.download_url);
-                        attachmentLink.href = attachment.download_url;
+                        attachmentLink.setAttribute("href", attachment.download_url);
                         console.log("SET HREF:", attachmentLink.href);
-                        attachmentLink.target = "_blank";
-                        attachmentLink.value = attachment.id;
+                        attachmentLink.setAttribute("target", "_blank");                        
                         attachmentLink.dataset.id = attachment.id;
                         attachmentLink.classList.add('lesson-view-attachment');
                         attachmentLink.textContent = attachment.name;
@@ -685,9 +684,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     const link = document.createElement('a');
                     console.log("DOWNLOAD URL:", attachment.download_url);
-                    link.href = attachment.download_url;
+                    link.setAttribute("href", attachment.download_url);
                     console.log("SET HREF:", link.href);
-                    link.target = "_blank";
+                    link.setAttribute("target", "_blank")
                     link.textContent = attachment.name;
                     link.addEventListener("click", e => {
                         e.stopPropagation();
