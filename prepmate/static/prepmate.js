@@ -867,9 +867,9 @@ document.addEventListener('DOMContentLoaded', () => {
         pagination.style.display = 'none';
         createPlanView.style.display = 'none';
         editPlanView.style.display = 'none';
-        lessonViewEditBtn.style.display = 'none';
         lessonView.style.display = 'none';
         printBtnDiv.style.display = 'block';
+        lessonViewEditBtn.style.display = 'none';
         calendarView.style.display = 'block';
     }
 
