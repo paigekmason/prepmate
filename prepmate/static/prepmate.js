@@ -490,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    async function view_lesson(lesson_id) {
+    function view_lesson(lesson_id) {
 
         // Hide all other views
         // Clear previous contents and display page title
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
         attachmentsDisplay.innerHTML = '';
 
         // Grab lesson info from db
-        await fetch(`/plans/?id=${lesson_id}`)
+        fetch(`/plans/?id=${lesson_id}`)
             .then(response => response.json())
             .then(plan => {
                 console.log(plan.attachments);
@@ -547,13 +547,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (plan.attachments.length > 0) {
-                    // Skip if undefined
-                    if (!attachment.download_url) return;
 
                     plan.attachments.forEach(attachment => {
+                        // Skip if undefined
+                        if (!attachment.download_url) return;
+
                         const attachmentLink = document.createElement('a');
                         console.log("DOWNLOAD URL:", attachment.download_url);
                         attachmentLink.href = attachment.download_url;
+                        console.log("SET HREF:", attachmentLink.href);
                         attachmentLink.target = "_blank";
                         attachmentLink.value = attachment.id;
                         attachmentLink.dataset.id = attachment.id;
@@ -631,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
         list_plans(1);
     });
 
-    async function edit_lesson(lesson_id) {
+    function edit_lesson(lesson_id) {
 
         // Clear previous contents and display page title
         pageTitle.innerHTML = "Edit Plan";
@@ -661,7 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const replaceExistingBtn = document.querySelector('#replace-existing-lesson-btn');
 
         // Pre-fill lesson components
-        await fetch(`/plans?id=${lesson_id}`)
+        fetch(`/plans?id=${lesson_id}`)
             .then(response => response.json())
             .then(plan => {
                 editAttachmentsContainer.innerHTML = '';
@@ -682,6 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const link = document.createElement('a');
                     console.log("DOWNLOAD URL:", attachment.download_url);
                     link.href = attachment.download_url;
+                    console.log("SET HREF:", link.href);
                     link.target = "_blank";
                     link.textContent = attachment.name;
 
