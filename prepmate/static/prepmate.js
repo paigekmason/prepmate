@@ -552,6 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     plan.attachments.forEach(attachment => {
                         const attachmentLink = document.createElement('a');
+                        console.log("DOWNLOAD URL:", attachment.download_url);
                         attachmentLink.href = attachment.download_url;
                         attachmentLink.target = "_blank";
                         attachmentLink.value = attachment.id;
@@ -679,6 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!attachment.download_url) return;
                     
                     const link = document.createElement('a');
+                    console.log("DOWNLOAD URL:", attachment.download_url);
                     link.href = attachment.download_url;
                     link.target = "_blank";
                     link.textContent = attachment.name;
