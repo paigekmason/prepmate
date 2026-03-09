@@ -868,8 +868,9 @@ document.addEventListener('DOMContentLoaded', () => {
         createPlanView.style.display = 'none';
         editPlanView.style.display = 'none';
         lessonView.style.display = 'none';
-        printBtnDiv.style.display = 'block';
+        printBtnDiv.style.display = 'flex';
         lessonViewEditBtn.style.display = 'none';
+        lessonViewAddToCalendarBtn.style.display = 'none';
         calendarView.style.display = 'block';
     }
 
