@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function view_lesson(lesson_id) {
+    async function view_lesson(lesson_id) {
 
         // Hide all other views
         // Clear previous contents and display page title
@@ -524,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
         attachmentsDisplay.innerHTML = '';
 
         // Grab lesson info from db
-        fetch(`/plans/?id=${lesson_id}`)
+        await fetch(`/plans/?id=${lesson_id}`)
             .then(response => response.json())
             .then(plan => {
                 console.log(plan.attachments);
@@ -626,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
         list_plans(1);
     });
 
-    function edit_lesson(lesson_id) {
+    async function edit_lesson(lesson_id) {
 
         // Clear previous contents and display page title
         pageTitle.innerHTML = "Edit Plan";
@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const replaceExistingBtn = document.querySelector('#replace-existing-lesson-btn');
 
         // Pre-fill lesson components
-        fetch(`/plans?id=${lesson_id}`)
+        await fetch(`/plans?id=${lesson_id}`)
             .then(response => response.json())
             .then(plan => {
                 editAttachmentsContainer.innerHTML = '';
