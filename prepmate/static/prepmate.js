@@ -561,6 +561,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         attachmentLink.dataset.id = attachment.id;
                         attachmentLink.classList.add('lesson-view-attachment');
                         attachmentLink.textContent = attachment.name;
+                        attachmentLink.addEventListener("click", e => {
+                            e.stopPropagation();
+                        });
 
                         const spacer = document.createElement('br');
                         attachmentsDisplay.appendChild(attachmentLink);
@@ -687,6 +690,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log("SET HREF:", link.href);
                     link.target = "_blank";
                     link.textContent = attachment.name;
+                    link.addEventListener("click", e => {
+                        e.stopPropagation();
+                    });
 
                     const spacer = document.createElement('br');
 
