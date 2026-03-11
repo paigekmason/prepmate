@@ -71,11 +71,23 @@ class Attachment(models.Model):
         return (f"Attachment(s) added to Lesson {self.lesson} - {self.lesson.title}")
     
     def get_download_url(self):
-        
         if not self.file:
             return None
-        
-        return self.file.url
+
+        # Prefer the storage-provided URL, but fall back to Cloudinary utils
+        # for raw resources if the storage URL isn't available.
+        try:
+            if self.file.url:
+                return self.file.url
+        except Exception:
+            pass
+
+        public_id = getattr(self.file, "public_id", None) or getattr(self.file, "name", None)
+        if public_id:
+            url, _ = cloudinary.utils.cloudinary_url(public_id, resource_type="raw")
+            return url
+
+        return None
     
     def delete(self, *args, **kwargs):
         
