@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    console.log('Prepmate JS Loaded');
+    console.log('PREPMATE JS Loaded');
 
     // Define views from index.html
     const listView = document.querySelector('#list-view');
@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define standards modal body and title in edit view
     const standardsModalBodyEdit = document.querySelector('#standards-modal-body-edit');
     const standardsModalTitleEdit = document.querySelector('#standards-modal-title-edit');
+
+    const lessonViewEditBtn = document.querySelector('#lesson-view-edit-btn');
 
     // Add checkbox change listeners for each modal body
     document.querySelectorAll('.modal-body').forEach(modalBody => {
@@ -502,7 +504,6 @@ document.addEventListener('DOMContentLoaded', () => {
         calendarView.style.display = 'none';
         lessonView.style.display = 'block';
         printBtnDiv.style.display = 'block';
-        const lessonViewEditBtn = document.querySelector('#lesson-view-edit-btn');
         lessonViewAddToCalendarBtn.dataset.lessonId = lesson_id;
         lessonViewAddToCalendarBtn.style.display = 'block';
         lessonViewEditBtn.style.display = 'block';
@@ -521,7 +522,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const standardsDisplay = document.querySelector('#standards-lesson-view');
         const attachmentsDisplay = document.querySelector('#attachments-lesson-view');
         const notesDisplay = document.querySelector('#notes-lesson-view');
-        attachmentsDisplay.innerHTML = '';
 
         // Grab lesson info from db
         fetch(`/plans/?id=${lesson_id}`)
@@ -536,7 +536,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 summarizerDisplay.innerText = plan.summarizer;
                 notesDisplay.innerText = plan.notes;
                 standardsDisplay.innerText = '';
-                attachmentsDisplay.innerHTML = '';
 
                 plan.standards.forEach(standard => {
                     const standardText = document.createElement('p');
@@ -546,24 +545,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (plan.attachments.length > 0) {
+                    attachmentsDisplay.innerHTML = '';
 
                     plan.attachments.forEach(attachment => {
-                        const attachmentLink = document.createElement('a');
-                        attachmentLink.href = attachment.url;
-                        attachmentLink.target = "_blank";
-                        attachmentLink.value = attachment.id;
-                        attachmentLink.dataset.id = attachment.id;
-                        attachmentLink.classList.add('lesson-view-attachment');
-                        attachmentLink.name = "lesson-view-attachments";
-                        attachmentLink.textContent = attachment.name;
+                        const link = create_attachment_link(attachment);
 
-                        const spacer = document.createElement('br');
-                        attachmentsDisplay.append(attachmentLink, spacer);
-                    })
+                        if (link) {
+                            attachmentsDisplay.appendChild(link);
+                            attachmentsDisplay.appendChild(document.createElement('br'));
+                        }
+                    });
                 } else {
                     attachmentsDisplay.innerHTML = 'No attachments for this lesson.';
                 }
             });
+    }
+
+    function create_attachment_link(attachment) {
+        
+        const url = attachment.download_url;
+        if (!url) return null;
+
+        const link = document.createElement('a');
+        console.log("DOWNLOAD URL:", url);
+
+        link.setAttribute("href", url);
+        console.log("SET HREF:", link.href);
+
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+        link.dataset.id = attachment.id;
+        link.classList.add('lesson-view-attachment');
+        link.textContent = attachment.name;
+
+        return link;
     }
 
     function delete_lesson(lesson) {
@@ -573,7 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Display modal to confirm deletion when button is clicked
         document.querySelector('#modal-message').innerHTML = `Are you sure you want to delete <strong>${lesson.title}</strong>?`;
         confirmDeleteModal.show();
-
 
         confirmDeleteBtn.onclick = () => {
 
@@ -651,9 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const editAttachmentForm = document.querySelector('#edit-lesson-files');
         editAttachmentForm.value = '';
         const editAttachmentsContainer = document.querySelector('#edit-attachments-container');
-        const editSelectedList = document.querySelector('#selected-standards-edit');
         const editNotes = document.querySelector('#edit-lesson-notes');
-        const saveAsNewBtn = document.querySelector('#save-as-new-btn');
         const replaceExistingBtn = document.querySelector('#replace-existing-lesson-btn');
 
         // Pre-fill lesson components
@@ -672,14 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 replaceExistingBtn.dataset.lessonId = plan.id;
 
                 plan.attachments.forEach(attachment => {
-
-                    console.log('Adding attachment', attachment);
-                    const link = document.createElement('a');
-                    link.href = attachment.url;
-                    link.target = "_blank";
-                    link.textContent = attachment.name;
-
-                    const spacer = document.createElement('br');
+                    const link = create_attachment_link(attachment);
 
                     const deleteAttachmentBtn = document.createElement('button');
                     deleteAttachmentBtn.type = 'button';
@@ -688,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     deleteAttachmentBtn.onclick = (event) => {
                         event.preventDefault();
                         delete_attachment(attachment.id);
-                        link.style.display = 'none';
+                        if (link) link.style.display = 'none';
                         deleteAttachmentBtn.style.display = 'none';
                     }
 
@@ -696,8 +701,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     hidden.type = 'hidden';
                     hidden.value = attachment.id;
                     hidden.name = 'existing_attachments[]';
-                    editAttachmentsContainer.append(link, deleteAttachmentBtn, hidden, spacer);
-                    console.log('Hidden input added:', hidden);
+                    
+                    editAttachmentsContainer.appendChild(deleteAttachmentBtn);
+                    editAttachmentsContainer.appendChild(hidden);
+                    
                 });
 
                 // Reset selected standards
@@ -859,7 +866,9 @@ document.addEventListener('DOMContentLoaded', () => {
         createPlanView.style.display = 'none';
         editPlanView.style.display = 'none';
         lessonView.style.display = 'none';
-        printBtnDiv.style.display = 'block';
+        printBtnDiv.style.display = 'flex';
+        lessonViewEditBtn.style.display = 'none';
+        lessonViewAddToCalendarBtn.style.display = 'none';
         calendarView.style.display = 'block';
     }
 
