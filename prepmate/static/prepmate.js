@@ -522,7 +522,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const standardsDisplay = document.querySelector('#standards-lesson-view');
         const attachmentsDisplay = document.querySelector('#attachments-lesson-view');
         const notesDisplay = document.querySelector('#notes-lesson-view');
-        attachmentsDisplay.innerHTML = '';
 
         // Grab lesson info from db
         fetch(`/plans/?id=${lesson_id}`)
@@ -549,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     attachmentsDisplay.innerHTML = '';
 
                     plan.attachments.forEach(attachment => {
-                        const link = create_attachment_link(attachment, attachmentsDisplay);
+                        const link = create_attachment_link(attachment);
 
                         if (link) {
                             attachmentsDisplay.appendChild(link);
@@ -589,7 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Display modal to confirm deletion when button is clicked
         document.querySelector('#modal-message').innerHTML = `Are you sure you want to delete <strong>${lesson.title}</strong>?`;
         confirmDeleteModal.show();
-
 
         confirmDeleteBtn.onclick = () => {
 
