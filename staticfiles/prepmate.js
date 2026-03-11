@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // By default, show calendar
     view_calendar();
-    
+
     function list_plans(page = 1) {
 
         // Clear previous contents and display page title
@@ -567,17 +567,28 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!url) return null;
 
         const link = document.createElement('a');
-        console.log("DOWNLOAD URL:", url);
-
-        link.setAttribute("href", url);
-        console.log("SET HREF:", link.href);
-
-        link.setAttribute("target", "_blank");
-        link.setAttribute("rel", "noopener noreferrer");
         link.dataset.id = attachment.id;
         link.classList.add('lesson-view-attachment');
         link.textContent = attachment.name;
 
+        const fileType = attachment.name.split('.').pop().toLowerCase();
+        const officeExtensions = ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'];
+
+        // Open regularly in new tab if pdf
+        // Open in Google Docs viewer if office extension
+        // Force download if other
+        if (fileType === 'pdf') {
+            link.href = url;
+            link.target = "blank";
+            link.rel = "noopener"
+        } else if (officeExtensions.includes(fileType)) {
+            link.target = "_blank";
+            link.href = `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+            link.rel = "noopener";
+        } else {
+            link.href = url;
+            link.download = "";
+        }
         return link;
     }
 
