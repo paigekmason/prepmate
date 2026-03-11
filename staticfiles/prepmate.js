@@ -67,9 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     pageTitle.style.display = 'block';
     printBtnDiv.style.display = 'block';
 
-    // By default, show calendar
-    view_calendar();
-
     // Add event listener for lesson view add to calendar button
     const lessonViewAddToCalendarBtn = document.querySelector('#lesson-view-add-to-calendar-btn');
     lessonViewAddToCalendarBtn.addEventListener('click', (event) => {
@@ -200,6 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // By default, show calendar
+    view_calendar();
+    
     function list_plans(page = 1) {
 
         // Clear previous contents and display page title
