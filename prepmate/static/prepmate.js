@@ -546,44 +546,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (plan.attachments.length > 0) {
+                    attachmentsDisplay.innerHTML = '';
 
                     plan.attachments.forEach(attachment => {
-                        create_attachment_link(attachment, attachmentsDisplay);
-                    })
+                        const link = create_attachment_link(attachment, attachmentsDisplay);
+
+                        if (link) {
+                            attachmentsDisplay.appendChild(link);
+                            attachmentsDisplay.appendChild(document.createElement('br'));
+                        }
+                    });
                 } else {
                     attachmentsDisplay.innerHTML = 'No attachments for this lesson.';
                 }
             });
     }
 
-    function create_attachment_link(attachment, container) {
-        const attachmentsContainer = container || document.querySelector('#attachments-lesson-view');
-        if (!attachmentsContainer) return null;
+    function create_attachment_link(attachment) {
+        
+        const url = attachment.download_url;
+        if (!url) return null;
 
-        const url = attachment.download_url || attachment.url || attachment.cloudinary_url;
-        if (!url || url === 'undefined') return null;
-
-        const attachmentLink = document.createElement('a');
+        const link = document.createElement('a');
         console.log("DOWNLOAD URL:", url);
 
-        attachmentLink.setAttribute("href", url);
-        console.log("SET HREF:", attachmentLink.href);
+        link.setAttribute("href", url);
+        console.log("SET HREF:", link.href);
 
-        attachmentLink.setAttribute("target", "_blank");
-        attachmentLink.setAttribute("rel", "noopener");
-        attachmentLink.dataset.id = attachment.id;
-        attachmentLink.classList.add('lesson-view-attachment');
-        attachmentLink.textContent = attachment.name;
-        attachmentLink.addEventListener("click", e => {
-            e.stopPropagation();
-        });
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+        link.dataset.id = attachment.id;
+        link.classList.add('lesson-view-attachment');
+        link.textContent = attachment.name;
 
-        const spacer = document.createElement('br');
-
-        attachmentsContainer.appendChild(attachmentLink);
-        attachmentsContainer.appendChild(spacer);
-
-        return attachmentLink;
+        return link;
     }
 
     function delete_lesson(lesson) {
@@ -690,7 +686,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 replaceExistingBtn.dataset.lessonId = plan.id;
 
                 plan.attachments.forEach(attachment => {
-                    const link = create_attachment_link(attachment, editAttachmentsContainer);
+                    const link = create_attachment_link(attachment);
 
                     const deleteAttachmentBtn = document.createElement('button');
                     deleteAttachmentBtn.type = 'button';
