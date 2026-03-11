@@ -10,10 +10,10 @@
         <script src="https://kit.fontawesome.com/1026613f54.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
         <link rel="stylesheet" type="text/css" media="print" href="{% static 'print.css' %}">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'media/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'media/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'media/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'media/site.webmanifest' %}">
 
     </head>
 
@@ -22,7 +22,7 @@
             <div class="container mt-3">
                 <div class="row">
                     <div class="col">
-                        <a href="{% url 'index' %}"><img id="logo" src="https://res.cloudinary.com/dnmlnaxme/image/upload/v1772727053/prepmate_logo_dkqpku.png"></a>
+                        <a href="{% url 'index' %}"><img id="logo" src="{% static 'media/prepmate_logo.png' %}"></a>
                     </div>
                     <div class="col" style="text-align: right;">
                         <div class="row">
