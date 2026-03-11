@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    console.log('Prepmate JS Loaded');
+    console.log('PREPMATE JS Loaded');
 
     // Define views from index.html
     const listView = document.querySelector('#list-view');
