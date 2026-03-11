@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalTitle.innerText = lessonTitle;
         modalTitle.dataset.id = lessonId;
         addToCalendarModal.show();
-    })
+    });
 
     // Define standards modal body and title in create view
     const standardsModalBodyCreate = document.querySelector('#standards-modal-body-create');
@@ -141,13 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
         searchDiv.style.display = 'none';
         createPlanView.style.display = 'block';
         pageTitle.innerText = 'Create New Lesson Plan';
-    })
+    });
 
     // Event handler for clicking calendar nav
     calendarBtn.addEventListener('click', (event) => {
         event.preventDefault();
         view_calendar();
-    })
+    });
 
     // Event handler for displaying standards list when creating new lesson
     const attachStandardsBtnCreate = document.querySelector('#attach-standards-btn-create');
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             standardsModalTitleCreate.innerHTML = '';
             standardsModalBodyEdit.innerHTML = '';
             standardsModalBodyCreate.innerHTML = '';
-        })
+        });
     });
 
     gradeSelectors.forEach(selector => {
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             standardsModalTitleCreate.innerHTML = '';
             standardsModalBodyEdit.innerHTML = '';
             standardsModalBodyCreate.innerHTML = '';
-        })
+        });
     });
 
     // Click handler for search button on list view
